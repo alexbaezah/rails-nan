@@ -1,7 +1,14 @@
 class TasksController < ApplicationController
+  before_action :authenticate_user! , except: :index
+
   def index
-  end
+   @tasks = Task.all
+ end
 
   def show
-  end
+   @task = Task.find(params[:id])
+   @ranking = @task.users.limit(5).sort_by(&:created_at)
+   @users = @task.users
+ end
+
 end
